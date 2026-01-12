@@ -2,7 +2,7 @@ import { GoogleGenAI } from "@google/genai";
 import { Transaction, Budget } from '../types';
 
 export const generateFinancialInsights = async (transactions: Transaction[], budgets: Budget[]): Promise<string> => {
-  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+  const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GOOGLE_API_KEY });
   const context = `
     Transactions: ${JSON.stringify(transactions.slice(0, 10))}
     Budgets: ${JSON.stringify(budgets)}
@@ -28,7 +28,7 @@ export const chatWithFinancialAssistant = async (
   history: {role: 'user' | 'model', text: string}[],
   transactions: Transaction[]
 ): Promise<string> => {
-  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+  const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GOOGLE_API_KEY });
   
   // Construct a simplified context of the latest transactions to save tokens
   const transactionContext = JSON.stringify(transactions.map(t => ({
