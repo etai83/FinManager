@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { AreaChart, Area, XAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import { NavLink } from 'react-router-dom';
 import { MOCK_TRANSACTIONS, MOCK_BUDGETS, PLANS } from '../constants';
-import { chatWithFinancialAssistant } from '../services/geminiService';
+import { chatWithFinancialAssistant } from '../services/aiService';
 import { useAuth } from '../contexts/AuthContext';
+import { useAI } from '../contexts/AIContext';
 
 // Mock data for the chart
 const CHART_DATA = [
@@ -17,6 +18,7 @@ const CHART_DATA = [
 ];
 
 export const Dashboard = () => {
+  const { config } = useAI();
   const [aiQuery, setAiQuery] = useState('');
   const [aiResponse, setAiResponse] = useState<string | null>(null);
   const [loadingAi, setLoadingAi] = useState(false);
@@ -38,7 +40,7 @@ export const Dashboard = () => {
     
     incrementAIUsage();
     
-    const response = await chatWithFinancialAssistant(aiQuery, [], MOCK_TRANSACTIONS);
+    const response = await chatWithFinancialAssistant(aiQuery, [], MOCK_TRANSACTIONS, config);
     setAiResponse(response);
     setLoadingAi(false);
   };

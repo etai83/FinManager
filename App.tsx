@@ -10,6 +10,7 @@ import { Register } from './components/Register';
 import { Settings } from './components/Settings';
 import { SubscriptionPage } from './components/Subscription';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { AIProvider } from './contexts/AIContext';
 
 // Protected Route Wrapper
 const ProtectedRoute = ({ children }: React.PropsWithChildren) => {
@@ -34,24 +35,26 @@ const ProtectedRoute = ({ children }: React.PropsWithChildren) => {
 const App = () => {
   return (
     <AuthProvider>
-      <HashRouter>
-        <Routes>
-          {/* Public Routes */}
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+      <AIProvider>
+        <HashRouter>
+          <Routes>
+            {/* Public Routes */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
 
-          {/* Protected Routes */}
-          <Route path="/" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-          <Route path="/transactions" element={<ProtectedRoute><Transactions /></ProtectedRoute>} />
-          <Route path="/budget" element={<ProtectedRoute><BudgetPage /></ProtectedRoute>} />
-          <Route path="/reports" element={<ProtectedRoute><Reports /></ProtectedRoute>} />
-          <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
-          <Route path="/subscription" element={<ProtectedRoute><SubscriptionPage /></ProtectedRoute>} />
-          <Route path="/cards" element={<ProtectedRoute><div className="p-8 text-white">Cards Feature Coming Soon</div></ProtectedRoute>} />
-          
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </HashRouter>
+            {/* Protected Routes */}
+            <Route path="/" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+            <Route path="/transactions" element={<ProtectedRoute><Transactions /></ProtectedRoute>} />
+            <Route path="/budget" element={<ProtectedRoute><BudgetPage /></ProtectedRoute>} />
+            <Route path="/reports" element={<ProtectedRoute><Reports /></ProtectedRoute>} />
+            <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
+            <Route path="/subscription" element={<ProtectedRoute><SubscriptionPage /></ProtectedRoute>} />
+            <Route path="/cards" element={<ProtectedRoute><div className="p-8 text-white">Cards Feature Coming Soon</div></ProtectedRoute>} />
+
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </HashRouter>
+      </AIProvider>
     </AuthProvider>
   );
 };

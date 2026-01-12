@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { MOCK_BUDGETS, MOCK_TRANSACTIONS, INITIAL_INSIGHTS } from '../constants';
-import { generateFinancialInsights } from '../services/geminiService';
+import { generateFinancialInsights } from '../services/aiService';
 import { AIInsight } from '../types';
 import { useAuth } from '../contexts/AuthContext';
+import { useAI } from '../contexts/AIContext';
 
 export const BudgetPage = () => {
   const { subscription } = useAuth();
+  const { config } = useAI();
   const [insights, setInsights] = useState<AIInsight[]>(INITIAL_INSIGHTS);
   const [analyzing, setAnalyzing] = useState(false);
   const [customTip, setCustomTip] = useState<string | null>(null);
@@ -15,7 +17,7 @@ export const BudgetPage = () => {
   const handleGenerateTips = async () => {
     if (!isPro) return; // Prevention
     setAnalyzing(true);
-    const tip = await generateFinancialInsights(MOCK_TRANSACTIONS, MOCK_BUDGETS);
+    const tip = await generateFinancialInsights(MOCK_TRANSACTIONS, MOCK_BUDGETS, config);
     setCustomTip(tip);
     setAnalyzing(false);
   };

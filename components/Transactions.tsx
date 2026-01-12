@@ -1,9 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { MOCK_TRANSACTIONS } from '../constants';
-import { chatWithFinancialAssistant } from '../services/geminiService';
+import { chatWithFinancialAssistant } from '../services/aiService';
 import { ChatMessage } from '../types';
+import { useAI } from '../contexts/AIContext';
 
 export const Transactions = () => {
+  const { config } = useAI();
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: 'welcome',
@@ -36,7 +38,7 @@ export const Transactions = () => {
     setLoading(true);
 
     const history = messages.map(m => ({ role: m.role, text: m.text }));
-    const responseText = await chatWithFinancialAssistant(userMsg.text, history, MOCK_TRANSACTIONS);
+    const responseText = await chatWithFinancialAssistant(userMsg.text, history, MOCK_TRANSACTIONS, config);
 
     const aiMsg: ChatMessage = {
       id: (Date.now() + 1).toString(),
